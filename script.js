@@ -1,30 +1,42 @@
-var id= 0;
-var arr = [];
+const toastQueue = []; // Array to store all toast messages
 
-function show_toast() {
-    let toast_id = create_toast();
-    var toast = document.getElementById(toast_id);
-    toast.classList.add("show");
-    console.log(arr);
-    remove_toast(toast)
+function showToast() {
+  const toastContainer = document.getElementById('toast-container');
+  
+  // If there are already three toasts displayed, remove the oldest one
+  if (toastQueue.length >= 3) {
+    const oldToast = toastQueue.shift(); // Remove the oldest toast
+    oldToast.classList.add('slide-out');
+    setTimeout(() => {
+      oldToast.remove();
+    //   createToast(toastContainer);
+    }, 500);
+  } else {
+    setTimeout(createToast(toastContainer),500);
+  }
 }
 
-function create_toast(){
-    var toast_container = document.getElementById("toast-container");
-    toast_id = "toast-"+id;
-    toast_container.innerHTML += 
-    `<div class="toast" id=${toast_id}>
-        This is SnackBar!!
-        <button class="close-btn" onclick="close_toast()">X</button>
-    </div>`;
-    arr.push(toast_id);
-    id+=1;
-    return toast_id;
+function createToast(container) {
+  const toast = document.createElement('div');
+  toast.classList.add('toast');
+  toast.innerHTML = `
+    <span>This is a toast message</span>
+    <span class="close-btn" onclick="closeToast(this)">X</span>
+  `;
+  container.prepend(toast);
+  toastQueue.push(toast); // Add the new toast to the array
+
+  setTimeout(() => {
+    closeToast(toast.querySelector('.close-btn'));
+  }, 3000);
 }
 
-function remove_toast(toast) {
-    setTimeout(function(){ toast.classList.remove("show"); }, 3900);
-    if (arr.length >3) {
-        arr.shift();
-    }
+function closeToast(btn) {
+  const toast = btn.closest('.toast');
+  toast.classList.add('slide-out');
+  setTimeout(() => {
+    toast.remove();
+    const index = toastQueue.indexOf(toast);
+    toastQueue.splice(index, 1); // Remove the closed toast from the array
+  }, 800);
 }
