@@ -1,42 +1,36 @@
-const toastQueue = []; // Array to store all toast messages
+const toastContainer = document.getElementById('toast-container');
+const maxVisibleToasts = 3;
+const toastQueue = [];
+var id=0
 
 function showToast() {
-  const toastContainer = document.getElementById('toast-container');
-  
-  // If there are already three toasts displayed, remove the oldest one
-  if (toastQueue.length >= 3) {
-    const oldToast = toastQueue.shift(); // Remove the oldest toast
-    oldToast.classList.add('slide-out');
-    setTimeout(() => {
-      oldToast.remove();
-    //   createToast(toastContainer);
-    }, 500);
+  const toast_id = `toast-${id}`
+  id+=1;
+  if (toastContainer.children.length < maxVisibleToasts) {
+    createToast(toast_id);
   } else {
-    setTimeout(createToast(toastContainer),500);
+    toastQueue.push(toast_id);
   }
 }
 
-function createToast(container) {
+function createToast(toast_id) {
   const toast = document.createElement('div');
-  toast.classList.add('toast');
-  toast.innerHTML = `
-    <span>This is a toast message</span>
-    <span class="close-btn" onclick="closeToast(this)">X</span>
-  `;
-  container.prepend(toast);
-  toastQueue.push(toast); // Add the new toast to the array
-
-  setTimeout(() => {
-    closeToast(toast.querySelector('.close-btn'));
-  }, 3000);
+  toast.className = 'toast';
+  toast.innerHTML = 
+  `<span>This is a toast message</span>
+    <span class="close-btn" onclick="closeToast(${toast})">X</span> `;
+  toastContainer.prepend(toast);
+  closeToast(toast)
 }
 
-function closeToast(btn) {
-  const toast = btn.closest('.toast');
-  toast.classList.add('slide-out');
+function closeToast(toast) {
   setTimeout(() => {
-    toast.remove();
-    const index = toastQueue.indexOf(toast);
-    toastQueue.splice(index, 1); // Remove the closed toast from the array
-  }, 800);
+    toast.classList.add('hide');
+    setTimeout(() => {
+      toast.remove();
+        if (toastQueue.length > 0) {
+          createToast(toastQueue.shift());
+        }
+    }, 1000);
+  }, 4000);
 }
