@@ -1,36 +1,49 @@
-const toastContainer = document.getElementById('toast-container');
-const maxVisibleToasts = 3;
-const toastQueue = [];
-var id=0
+const toastContainer = document.getElementById("toast-container");
+let id = 0;
+let arr = [];
 
 function showToast() {
-  const toast_id = `toast-${id}`
-  id+=1;
-  if (toastContainer.children.length < maxVisibleToasts) {
-    createToast(toast_id);
-  } else {
-    toastQueue.push(toast_id);
-  }
+    let toastID = 'toast-'+id;
+    id += 1;
+    if (toastContainer.children.length < 3) {
+        createDiv(toastID);
+    } else {
+        arr.push(toastID);
+    }
 }
 
-function createToast(toast_id) {
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = 
-  `<span>This is a toast message</span>
-    <span class="close-btn" onclick="closeToast(${toast})">X</span> `;
-  toastContainer.prepend(toast);
-  closeToast(toast)
+function createDiv(toastID){
+    let toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.id = toastID;
+    toast.innerHTML = `<span>This is a toast message</span>
+    <span class="close-btn" onclick="closeToast('${toastID}')">X</span> `;
+    toastContainer.appendChild(toast);
+    moveDiv(toast);
 }
 
-function closeToast(toast) {
-  setTimeout(() => {
-    toast.classList.add('hide');
+function moveDiv(toast) {
+    toast.classList.add('right');
     setTimeout(() => {
+        toast.classList.remove('right');
+    }, 2000);
+    setTimeout(() => {
+        toast.classList.add('left');
+    }, 4000);
+    setTimeout(() => {
+      toast.classList.remove('left');
       toast.remove();
-        if (toastQueue.length > 0) {
-          createToast(toastQueue.shift());
-        }
-    }, 1000);
-  }, 4000);
+      if (arr.length > 0) {
+        createDiv(document.getElementById(arr.shift()));
+      }
+    }, 5000);
 }
+
+function closeToast(toastID) {
+  let toast = document.getElementById(toastID);
+  toast.nextSibling.classList.add('down');
+  toast.remove();
+}
+
+
+

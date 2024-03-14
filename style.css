@@ -4,25 +4,26 @@
     box-sizing: border-box;
 }
 #toast-container {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    width: 300px;
-    height: auto;
-    gap: 20px;
-    margin: 20px;
-    position: absolute;
-    bottom: 20px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  width: 300px;
+  height: auto;
+  gap: 20px;
+  margin: 20px;
+  position: absolute;
+  bottom: 20px;
 }
 #toast_btn {
-    display: block;
-    width: 250px;
-    height: 80px;
-    font-size: larger;
-    background-color: #333;
-    color: #fff;
-    margin: 100px auto 0px;
-    border-radius: 10px;
+  cursor: pointer;
+  display: block;
+  width: 250px;
+  height: 80px;
+  font-size: larger;
+  background-color: #333;
+  color: #fff;
+  margin: 100px auto 0px;
+  border-radius: 10px;
 }
 .close-btn {
   font-size: larger;
@@ -30,36 +31,36 @@
   color: #fff;
 }
 .toast {    
-    background-color: #333;
-    color: #fff;
-    padding: 15px;
-    width: 100%;
-    margin-top: 5px;
-    border-radius: 5px;
-    animation: slideLeft 1s ease-in-out;
-    font-size: large;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  background-color: #333;
+  color: #fff;
+  padding: 15px;
+  width: 100%;
+  margin-top: 5px;
+  border-radius: 5px;
+  font-size: large;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.toast.hide {
-  animation: slideRight 1s ease-in-out;
+.toast.left {
+  animation: moveLeft 1s ease-in-out;
 }
-
-@keyframes slideLeft {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+.toast.right {
+  animation: moveRight 1s ease-in-out;
+}
+.toast.down {
+  animation: moveDown 0.5s ease-in-out;
 }
 
-@keyframes slideRight {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+@keyframes moveRight{
+  0%{transform: translateX(-200px);}
+  100%{transform: translateX(0px);}
+}  
+@keyframes moveDown{
+  0%{margin-bottom: 70px;}
+  100%{margin-bottom: 10px;}
 }
+@keyframes moveLeft{
+  0%{transform: translateX(0px); }
+  100%{transform: translateX(-200px);}
+}  
