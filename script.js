@@ -18,32 +18,38 @@ function createDiv(toastID){
     toast.id = toastID;
     toast.innerHTML = `<span>This is a toast message</span>
     <span class="close-btn" onclick="closeToast('${toastID}')">X</span> `;
-    toastContainer.appendChild(toast);
-    moveDiv(toast);
+    toastContainer.append(toast);
+    setTimeout(() => {
+        moveDiv(toast);
+    }, 100);
 }
 
 function moveDiv(toast) {
-    toast.classList.add('right');
-    setTimeout(() => {
-        toast.classList.remove('right');
-    }, 2000);
     setTimeout(() => {
         toast.classList.add('left');
-    }, 4000);
+    }, 3000);
     setTimeout(() => {
-      toast.classList.remove('left');
-      toast.remove();
-      if (arr.length > 0) {
-        createDiv(document.getElementById(arr.shift()));
-      }
-    }, 5000);
+        toast.classList.remove('left');
+        closeToast(toast.id);
+    }, 3000);
 }
 
 function closeToast(toastID) {
-  let toast = document.getElementById(toastID);
-  toast.nextSibling.classList.add('down');
-  toast.remove();
+    let toast = document.getElementById(toastID);
+    toast.classList.add('left');
+    setTimeout(() => {
+        toast.remove();
+        if (arr.length > 0) {
+            createDiv(arr.shift());
+        }
+    }, 1000);
 }
 
 
-
+        // if (nextToast = toast.nextSibling) {
+        //     nextToast.classList.add('down');
+        //     console.log('down');
+        //     setTimeout(() => {
+        //         nextToast.classList.remove('down');
+        //     },500);
+        // }

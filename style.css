@@ -41,6 +41,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  animation: moveRight 1s ease-in-out;
 }
 .toast.left {
   animation: moveLeft 1s ease-in-out;
@@ -63,4 +64,5 @@
 @keyframes moveLeft{
   0%{transform: translateX(0px); }
   100%{transform: translateX(-200px);}
-}  
+} 
+ 
